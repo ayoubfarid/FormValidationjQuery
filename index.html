@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<style>
+  .valid-style
+  {
+    font-size: 15px;
+    color: green;
+  }
+  .invalid-style
+  {
+    font-size: 15px;
+    color: red;
+  }
+</style>
+</head>
+<body>
+
+    <div class="container mt-5">
+        <div class="row  d-flex" style="margin: auto; max-width:450px;" >
+          <fieldset>
+          <div class="row">
+                <h2 style="text-align: center;" >Validation Login Form </h2>
+
+            </div>
+            
+            <div class="row mt-4">
+              <form class="row g-3 " >
+                <div class="input-group mt-2 ">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-envelope"></i></span>
+                   <input type="text" id="email"  class="form-control " placeholder="test@test.com" aria-label="email" aria-describedby="basic-addon1">
+                  </div>
+                  <p class="" id="emailisvalid">
+
+                    </p>
+                  <div class="input-group mb-1" >
+                    <span class="input-group-text" id="basic-addon2"><i class="bi bi-lock"></i>
+                    </span>
+                    <input type="password"  id="password" class="form-control" placeholder="********" aria-label="password" aria-describedby="basic-addon2"> 
+                </div>
+                <p class="" id="passwordisvalid">  
+                </p>
+                <div class="input-group mb-3">
+                    <input class="form-check-input" type="checkbox" onclick="showPassword()"> &nbsp;  Show Password
+                </div>
+                <div>
+                    <p style="text-align: center;">
+                        create new account<button class="btn btn-link" data-bs-toggle="modal" data-bs-target="#exampleModal"> here</button>    
+                    </p>
+                </div>
+                 <div class="mb-3 row">
+                    <button type="button" onclick="validateInputs()" class="btn btn-block btn-primary">Submit</button>
+                </div>
+              </form>
+              </div>
+              </fieldset>
+            </div>
+
+        </div>
+
+    </div>
+    
+</body>
+<script >
+  $(document).ready(function(){
+
+    $("#email").keyup(function(){
+      verifyEmail()
+    })
+    $("#password").keyup(function(){
+      verifyPassword()
+    })
+    
+
+
+});
+function validateInputs() {
+    if(verifyPassword() && verifyEmail() )
+    alert("your email and password are valid")
+    else
+    alert("your email and password are not valid")
+    
+  }
+function showPassword() {
+    var x = document.getElementById("password");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
+  function verifyEmail()
+    {
+      var email=$("#email")
+      var emailIsValid=$("#emailisvalid")
+      var msg=""
+      var valid=false
+      if(email.val().length>0)
+      {
+        //alert('changed :'+email.val())
+        if(validateEmail(email.val()))
+        {
+          emailIsValid.removeAttr("class")
+          emailIsValid.addClass("valid-style")
+          msg="email is valid"
+          valid=true
+        } else{
+          emailIsValid.removeAttr("class")
+          emailIsValid.addClass("invalid-style")
+           msg="email is not valid"
+        }
+      emailIsValid.html(msg);
+      console.log(email.val());
+      }else{
+         emailIsValid.html('')
+      }
+      
+    return valid
+  }
+  function verifyPassword()
+    {
+      var password= $("#password")
+      var passwordIsValid =$("#passwordisvalid")
+      var msg=""
+      var valid=false
+      if(password.val().length>0)
+       {
+         console.log("efef")
+         if(!validatePassword(password.val()))
+         {
+          passwordIsValid.removeAttr("class")
+          passwordIsValid.addClass("invalid-style")
+          msg="Password should contain at least one digit, one lower case,least one upper case and 8 from the mentioned characters "
+         }else
+         {
+          passwordIsValid.removeAttr("class")
+           passwordIsValid.addClass("valid-style")
+          msg="Password is valid"
+          valid=true
+         }
+       passwordIsValid.html(msg)
+        console.log(password.val());
+      
+    }else{
+      passwordIsValid.html(msg)
+    }
+    return valid
+  }
+function validateEmail(email){
+    return email.match(
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+  };
+    
+   
+  function validatePassword(password){
+    return password.match(
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/
+    );
+  };
+  /*
+  /^
+    (?=.*\d)          // should contain at least one digit
+    (?=.*[a-z])       // should contain at least one lower case
+    (?=.*[A-Z])       // should contain at least one upper case
+    [a-zA-Z0-9]{8,}   // should contain at least 8 from the mentioned characters
+  $/*/
+ 
+    
+   
+</script>
+</html>
